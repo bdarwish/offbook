@@ -5,6 +5,7 @@ def identify_line(silence_time=3):
 	r.pause_threshold = silence_time
 
 	with sr.Microphone() as source:
+		r.adjust_for_ambient_noise(source)
 		print('Say your line.')
 		audio = r.listen(source)
 		print('Recording over.')
@@ -19,3 +20,5 @@ def identify_line(silence_time=3):
 		print(f'Could not request results from Whisper; {e}')
 		
 	return transcript
+
+#identify_line()

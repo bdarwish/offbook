@@ -1,19 +1,10 @@
 import re
-import pyttsx3
 import speech_to_text
+import text_to_speech
 import random
-import time
-
-speed = 225
-
-def set_up_tts():
-	engine = pyttsx3.init()
-	engine.setProperty('rate', speed)
-	#voices = engine.getProperty('voices')
-	return engine
 
 def main():
-	engine = set_up_tts()
+	stream = text_to_speech.set_up_tts()
 
 	raw_scene = open('scene.txt').read()
 	character = input('Enter your character: ').upper()
@@ -23,6 +14,7 @@ def main():
 	lines = re.findall(r'([A-Z][A-Z\' /]+): (.+)', scene) # Extracts all lines and characters
 
 	# Add each line of the user's character to the character_lines list of tuples
+	# (<index of lines in lines>, <line>)
 	character_lines = []
 
 	for line in lines:
@@ -33,12 +25,13 @@ def main():
 
 	print(chosen_line)
 
+	# If the chosen line is first (i.e. no line before it)
 	if chosen_line[0] == 0:
-		engine.say('...' + 'Scene start.' + '...')
+		stream.feed('Scene start.' + '....................')
 	else:
-		engine.say('...' + lines[chosen_line[0] - 1][1] + '...')
+		stream.feed(lines[chosen_line[0] - 1][1] + '....................') # The lines are to prevent it from cutting off the last word.
 	
-	engine.runAndWait()
+	stream.play()
 
 	#speech_to_text()
 
