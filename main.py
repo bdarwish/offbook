@@ -3,8 +3,12 @@ import speech_to_text
 import text_to_speech
 import feedback
 import random
+import warnings
+from RealtimeTTS import TextToAudioStream
 
 wav_path = 'output/line.wav'
+
+warnings.filterwarnings('ignore')
 
 def main():
 	stream = text_to_speech.set_up_tts()
@@ -48,5 +52,32 @@ def main():
 
 	feedback.get_feedback(wav_path=wav_path, character=character, scene=raw_scene)
 
-if __name__ == '__main__':
-	main()
+def gui_run(character_input: str, scene_input: str, stream: TextToAudioStream):
+	scene = re.sub(r'\([^()]*\)', '', scene_input) # Removes stage directions
+	scene = re.sub(r'Scene.+', '', scene).strip() # Removes any "Scene x" headings
+	lines = re.findall(r'([A-Z][A-Z\' /]+): (.+)', scene) # Extracts all lines and characters
+
+	# Add each line of the user's character to the character_lines list of tuples
+	# (<index of lines in lines>, <line>)
+	character_lines = []
+
+	for line in lines:
+		if line[0] == character_input:
+			character_lines.append((lines.index(line), line[1].strip()))
+
+	chosen_line = character_lines[random.randint(0, len(character_lines) - 1)]
+
+	tts_text = ''
+
+	if chosen_line[0] == 0:
+		tts_text = 'Scene start'
+		stream.feed(tts_text)
+	else:
+		tts_text = lines[chosen_line[0] - 1][1]
+		stream.feed(tts_text) # The dots are to prevent it from cutting off the last word.
+	
+	stream.play_async()
+	return tts_text
+
+# if __name__ == '__main__':
+# 	main()
