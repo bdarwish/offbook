@@ -1,10 +1,17 @@
 import re
 import speech_to_text
 import text_to_speech
+import feedback
 import random
+
+wav_path = 'output/line.wav'
 
 def main():
 	stream = text_to_speech.set_up_tts()
+
+	print('-------------------------------')
+	print('            OffBook            ')
+	print('-------------------------------')
 
 	raw_scene = open('scene.txt').read()
 	character = input('Enter your character: ').upper()
@@ -27,13 +34,19 @@ def main():
 
 	# If the chosen line is first (i.e. no line before it)
 	if chosen_line[0] == 0:
-		stream.feed('Scene start.' + '....................')
+		stream.feed('Scene start.')
 	else:
-		stream.feed(lines[chosen_line[0] - 1][1] + '....................') # The lines are to prevent it from cutting off the last word.
+		stream.feed(lines[chosen_line[0] - 1][1] + "...............") # The dots are to prevent it from cutting off the last word.
 	
 	stream.play()
 
-	#speech_to_text()
+	speech_to_text.identify_line(wav_path)
+
+	print('-------------------------------')
+	print('       Processing line...      ')
+	print('-------------------------------')
+
+	feedback.get_feedback(wav_path=wav_path, character=character, scene=raw_scene)
 
 if __name__ == '__main__':
 	main()

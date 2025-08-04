@@ -1,14 +1,17 @@
 import speech_recognition as sr
 
-def identify_line(silence_time=3):
+def identify_line(wav_path, silence_time=3):
 	r = sr.Recognizer()
 	r.pause_threshold = silence_time
+	#r.energy_threshold = 500
 
 	with sr.Microphone() as source:
 		r.adjust_for_ambient_noise(source)
 		print('Say your line.')
 		audio = r.listen(source)
 		print('Recording over.')
+
+	open(wav_path, 'wb').write(audio.get_wav_data())
 
 	transcript = r.recognize_whisper(audio, language='english')
 
@@ -20,5 +23,3 @@ def identify_line(silence_time=3):
 		print(f'Could not request results from Whisper; {e}')
 		
 	return transcript
-
-#identify_line()
