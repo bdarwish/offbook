@@ -15,5 +15,4 @@ echo "                       OffBook                       "
 echo "Setup complete. Use run/run.command to start the app."
 echo "-----------------------------------------------------"
 
-sleep 5
 exit 0
