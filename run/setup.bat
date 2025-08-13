@@ -15,4 +15,5 @@ echo -------------------------------------------------
 echo                     OffBook
 echo Setup complete. Use run\run.bat to start the app.
 echo -------------------------------------------------
-pause
+
+timeout /t 5 >nul
