@@ -19,8 +19,8 @@ class PracticeWindow(ctk.CTkToplevel):
         self.feedback = ''
         self.closed = False
 
-        self.current_line = 0
         self.character_lines = []
+        self.lines = []
         
         self.tts_engine.on_playing_end = self.start_recording
         self.recorder.on_pause = self.next_line
@@ -52,8 +52,7 @@ class PracticeWindow(ctk.CTkToplevel):
         self.cancel_button = ctk.CTkButton(self, text='Cancel', command=self.close_window, fg_color='#bb3434', corner_radius=0, border_width=1, border_color='black', font=ctk.CTkFont('Roboto', 14))
         self.cancel_button.grid(row=1, column=0, sticky='nesw')
 
-        self.character_lines = scene_player.process_scene(self.user_input[0], self.user_input[1])
-        #threading.Thread(target=self.practice, daemon=True).start()
+        self.lines, self.character_lines = scene_player.process_scene(self.user_input[0], self.user_input[1])
         self.practice()
 
     def practice(self):
