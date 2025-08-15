@@ -33,7 +33,7 @@ def get_feedback(wav_path: str, character: str, scene: str, after_feedback: Call
 
 			1. Start with the memorization accuracy as a percentage (e.g., 82%) and one short, honest sentence describing how well the lines were remembered.
 
-			2. Then, give a brief paragraph (no extra formatting) of feedback in second person on the delivery, addressing clarity, tone, and energy. Consider the genre and mood of the scene when assessing tone and energy.
+			2. Then, give a brief and concise paragraph (no extra formatting) of feedback in second person on the delivery, addressing clarity, tone, and energy. Consider the genre and mood of the scene when assessing tone and energy. Ensure that this feedback is no longer than one paragraph.
 
 			3. Do not be overly strict about minor deviations from the script if they are clearly artistic choices that work in the context of the performance.
 
